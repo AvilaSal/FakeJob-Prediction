@@ -31,7 +31,7 @@ print("Classification Report:\n", class_report)
 
 # Visualize the confusion matrix
 plt.figure(figsize=(8, 6))
-sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", xticklabels=["Not Fake", "Fake"], yticklabels=["Not Fake", "Fake"])
+sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="RdPu", xticklabels=["Not Fake", "Fake"], yticklabels=["Not Fake", "Fake"])
 plt.title("Confusion Matrix")
 plt.ylabel('True Label')
 plt.xlabel('Predicted Label')
