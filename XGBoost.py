@@ -11,7 +11,7 @@ job_data = pd.read_csv(file_path)
 X = job_data.drop('fraudulent', axis=1)
 y = job_data['fraudulent']
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 scale_pos_weight = len(y_train[y_train == 0]) / len(y_train[y_train == 1])
 
