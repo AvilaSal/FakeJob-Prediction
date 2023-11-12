@@ -15,7 +15,7 @@ y = job_data['fraudulent']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# hyperparameters
+# hyperparameters.
 gamma_value = 2
 min_child_weight_value = 10
 scale_pos_weight_value = 10
