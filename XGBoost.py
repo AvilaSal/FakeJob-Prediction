@@ -29,10 +29,47 @@ print("Accuracy:", accuracy)
 print("Confusion Matrix:\n", conf_matrix)
 print("Classification Report:\n", class_report)
 
-# Visualize the confusion matrix
+# visualize the confusion matrix
 plt.figure(figsize=(8, 6))
-sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="RdPu", xticklabels=["Not Fake", "Fake"], yticklabels=["Not Fake", "Fake"])
+sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Greens", xticklabels=["Not Fake", "Fake"], yticklabels=["Not Fake", "Fake"])
 plt.title("Confusion Matrix")
 plt.ylabel('True Label')
 plt.xlabel('Predicted Label')
 plt.show()
+
+from sklearn.metrics import roc_curve, auc
+
+# roc curve calculations
+fpr, tpr, _ = roc_curve(y_test, xgb_clf.predict_proba(X_test)[:,1])
+roc_auc = auc(fpr, tpr)
+
+# plot ROC curve
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic Curve')
+plt.legend(loc="lower right")
+plt.show()
+
+# Plot feature importances in a horizontal bar chart
+plt.figure(figsize=(10, 6))
+feature_importance = xgb_clf.feature_importances_
+sorted_idx = feature_importance.argsort()
+
+plt.barh(range(len(sorted_idx)), feature_importance[sorted_idx], align='center', color='darkslateblue')
+plt.yticks(range(len(sorted_idx)), [X.columns[i] for i in sorted_idx])
+plt.xlabel('Feature Importance')
+plt.title('Top Feature Importances')
+plt.gca()
+
+plt.tight_layout()
+plt.show()
+
+accuracy_df = pd.DataFrame({"Metric": ["Accuracy"], "Value": [accuracy]})
+
+# export the accuracy assessment as a CSV file
+accuracy_df.to_csv('accuracy.csv', index=False)
